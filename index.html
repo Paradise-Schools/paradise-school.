@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paradise International School | مدرسة برادايس العالمية</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0C2340',     /* الأزرق الملكي من الشعار */
+                            navyDark: '#071629',
+                            green: '#28A745',    /* الأخضر الحيوي من الشعار */
+                            greenHover: '#218838',
+                            gold: '#D4AF37',     /* الذهبي الملكي من الشعار */
+                            goldDark: '#AA820A',
+                            lightBg: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        en: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #071629;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(12, 35, 64, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .glass-card-hover:hover {
+            border-color: rgba(40, 167, 69, 0.6);
+            box-shadow: 0 10px 30px -10px rgba(40, 167, 69, 0.3);
+            transform: translateY(-5px);
+        }
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #FFFFFF 0%, #D4AF37 50%, #AA820A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-green {
+            background: linear-gradient(135deg, #FFFFFF 0%, #28A745 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-green selection:text-white">
+
+    <!-- Top Bar Contact -->
+    <div class="bg-brand-navyDark text-slate-300 text-xs py-2.5 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex flex-wrap items-center gap-6">
+                <span><i class="fa-solid fa-location-dot text-brand-gold ml-1"></i> مصر: المهندسين - 6 شارع دمشق</span>
+                <span><i class="fa-solid fa-location-dot text-brand-green ml-1"></i> السودان: الخرطوم - الطائف</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://wa.me/249122359997" target="_blank" class="hover:text-brand-green transition font-bold"><i class="fa-brands fa-whatsapp text-brand-green ml-1"></i> واتساب القبول</a>
+                <a href="tel:+201005873254" class="hover:text-brand-gold transition"><i class="fa-solid fa-phone text-brand-gold ml-1"></i> 01005873254</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <nav class="sticky top-0 z-50 glass-card bg-brand-navy/90 border-b border-brand-gold/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Integration with Embedded Base64 Image -->
+                <div class="flex items-center gap-3">
+                    <img src="data:image/jpeg;base64,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" alt="Paradise School Logo" class="h-14 w-auto rounded-full border-2 border-brand-gold p-0.5 bg-white transition duration-300">
+                    <div>
+                        <span class="text-lg font-extrabold block text-white tracking-wide">Paradise School</span>
+                        <span class="text-xs text-brand-gold block font-semibold">School & Kindergarten</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden lg:flex items-center space-x-6 space-x-reverse font-medium text-slate-200 text-sm">
+                    <a href="#about" class="hover:text-brand-gold transition">عن المدرسة</a>
+                    <a href="#values" class="hover:text-brand-green transition">القيم والمناهج</a>
+                    <a href="#stages" class="hover:text-brand-gold transition">المراحل الدراسية</a>
+                    <a href="#calculator" class="hover:text-brand-green transition">الرسوم والفيز</a>
+                    <a href="#admission" class="hover:text-brand-gold transition">القبول الإلكتروني</a>
+                    <a href="#branches" class="hover:text-brand-green transition">الفروع والتواصل</a>
+                </div>
+
+                <!-- CTA -->
+                <div class="flex items-center gap-3">
+                    <a href="https://wa.me/249122359997" target="_blank" class="bg-brand-green hover:bg-brand-greenHover text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shadow-lg shadow-brand-green/20 transition flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>تواصل مباشر</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20 px-4">
+        <div class="absolute inset-0 bg-gradient-to-br from-brand-navyDark via-brand-navy to-slate-900 opacity-90"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-green/10 rounded-full blur-3xl"></div>
+
+        <div class="relative max-w-5xl mx-auto text-center z-10 space-y-8">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-brand-gold/30 text-brand-gold text-xs sm:text-sm font-semibold">
+                <i class="fa-solid fa-award"></i>
+                <span>تعليم عالمي بروح ومبادئ سودانية اصيلة</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+                مدرسة <span class="text-gradient-gold">برادايس العالمية</span><br>
+                <span class="text-gradient-green text-3xl sm:text-5xl mt-2 block">Paradise International School</span>
+            </h1>
+
+            <p class="text-slate-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+                نفتح آفاق المستقبل لأبنائنا بمزيج فريد بين الاعتماد الدولي المتميز والتربية الأخلاقية القائمة على الأصالة والقيم السودانية السامية.
+            </p>
+
+            <!-- Quick Location Cards -->
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <div class="glass-card px-5 py-3 rounded-xl border border-slate-700 flex items-center gap-3 text-right">
+                    <i class="fa-solid fa-building-columns text-brand-gold text-2xl"></i>
+                    <div>
+                        <div class="text-xs text-slate-400">فرع مصر (القاهرة)</div>
+                        <div class="text-sm font-bold text-white">المهندسين - 6 شارع دمشق</div>
+                    </div>
+                </div>
+                <div class="glass-card px-5 py-3 rounded-xl border border-slate-700 flex items-center gap-3 text-right">
+                    <i class="fa-solid fa-school text-brand-green text-2xl"></i>
+                    <div>
+                        <div class="text-xs text-slate-400">فرع السودان (الخرطوم)</div>
+                        <div class="text-sm font-bold text-white">الطائف - شارع الستين</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="#admission" class="bg-brand-gold hover:bg-brand-goldDark text-brand-navy font-bold px-8 py-3.5 rounded-full shadow-lg transition">
+                    سجل لابنك الآن
+                </a>
+                <a href="#calculator" class="glass-card border border-brand-green text-white hover:bg-brand-green/20 font-bold px-8 py-3.5 rounded-full transition flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-brand-green"></i>
+                    <span>حاسبة الرسوم والاستفسارات</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section id="about" class="py-20 px-4 relative z-10 bg-brand-navyDark/60">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl font-extrabold text-white">عن برادايس العالمية</h2>
+                <div class="w-20 h-1 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-brand-gold glass-card-hover transition duration-300">
+                    <div class="w-14 h-14 bg-brand-gold/10 rounded-xl flex items-center justify-center text-brand-gold text-2xl mb-6">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">رؤيتنا (Vision)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        الريادة في إعداد جيل يتسم بالتفوق العلمي والأكاديمي العالمي، ويمتلك أدوات العصر الحديث بثقة واقتدار ومسؤولية.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-brand-green glass-card-hover transition duration-300">
+                    <div class="w-14 h-14 bg-brand-green/10 rounded-xl flex items-center justify-center text-brand-green text-2xl mb-6">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">رسالتنا (Mission)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        تقديم بيئة تعليمية تفاعلية تعتمد على أحدث وسائل التكنولوجيا، وتنمية القدرات الإبداعية مع غرس القيم الإيجابية والسلوك الرفيع.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-brand-gold glass-card-hover transition duration-300">
+                    <div class="w-14 h-14 bg-brand-gold/10 rounded-xl flex items-center justify-center text-brand-gold text-2xl mb-6">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">أهدافنا (Goals)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        تطوير مهارات التفكير النقدي والتحليلي، إتقان اللغات، وبناء شخصيات قيادية متوازنة تحافظ على الإرث الثقافي الأصيل.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values & Sudanese Cultural Heritage -->
+    <section id="values" class="py-20 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl font-extrabold text-white">قيمنا السودانية والمنهج العالمي</h2>
+                <p class="text-slate-400 text-sm">نصنع التوازن المثالي بين المعايير الدولية والتربية الأخلاقية الأصيلة</p>
+                <div class="w-20 h-1 bg-brand-green mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-xl text-center space-y-4 border border-brand-gold/20">
+                    <div class="w-12 h-12 bg-brand-gold/20 text-brand-gold rounded-full flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h4 class="font-bold text-white">الأصالة والشهامة</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">تعزيز قيم التعاون، احترام الكبير، والترابط الاجتماعي الذي يميز مجتمعنا الأصيل.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl text-center space-y-4 border border-brand-green/20">
+                    <div class="w-12 h-12 bg-brand-green/20 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-book-quran"></i>
+                    </div>
+                    <h4 class="font-bold text-white">الهوية والأخلاق</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">الاهتمام البالغ باللغة العربية والتربية الإسلامية والثقافة السودانية الغنية.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl text-center space-y-4 border border-brand-gold/20">
+                    <div class="w-12 h-12 bg-brand-gold/20 text-brand-gold rounded-full flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h4 class="font-bold text-white">التفوق العلمي الحديث</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">اعتماد أرقى المناهج الدولية في العلوم، الرياضيات، واللغات مع تطبيقات الذكاء الاصطناعي.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl text-center space-y-4 border border-brand-green/20">
+                    <div class="w-12 h-12 bg-brand-green/20 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-users font-bold"></i>
+                    </div>
+                    <h4 class="font-bold text-white">البيئة الأسرية الداعمة</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">شراكة حقيقية مع أولياء الأمور لتوفير الرعاية النفسية والتربوية الشاملة للطلاب.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educational Stages -->
+    <section id="stages" class="py-20 px-4 relative z-10 bg-brand-navyDark/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl font-extrabold text-white">المراحل الدراسية (Educational Stages)</h2>
+                <div class="w-20 h-1 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Kindergarten -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-slate-700">
+                    <div class="text-brand-gold font-bold text-xs uppercase tracking-wider">Kindergarten</div>
+                    <h3 class="text-xl font-bold text-white">الروضة والتمهيدي</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">تعلم باللعب والمرح، تنمية مهارات التفكير المبكر، استكشاف اللغات والانضباط الحركي في بيئة آمنة جداً.</p>
+                </div>
+
+                <!-- Primary -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-slate-700">
+                    <div class="text-brand-green font-bold text-xs uppercase tracking-wider">Primary School</div>
+                    <h3 class="text-xl font-bold text-white">المرحلة الابتدائية</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">بناء الأساس العلمي واللغوي، تطوير مهارات القراءة والحساب، وغرس المبادئ التربوية القويمة.</p>
+                </div>
+
+                <!-- Middle -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-slate-700">
+                    <div class="text-brand-gold font-bold text-xs uppercase tracking-wider">Middle School</div>
+                    <h3 class="text-xl font-bold text-white">المرحلة المتوسطة</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">تعزيز التفكير النقدي والعلوم المتقدمة، مع الاهتمام بالأنشطة الرياضية والثقافية والمهارات الاجتماعية.</p>
+                </div>
+
+                <!-- High School -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-slate-700">
+                    <div class="text-brand-green font-bold text-xs uppercase tracking-wider">High School</div>
+                    <h3 class="text-xl font-bold text-white">المرحلة الثانوية</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">إعداد الطلاب للتفوق في الامتحانات وتأهيلهم الأكاديمي الشامل للالتحاق بأفضل الجامعات العالمية والوطنية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fees & WhatsApp Connection -->
+    <section id="calculator" class="py-20 px-4 relative z-10">
+        <div class="max-w-4xl mx-auto glass-card p-8 sm:p-12 rounded-3xl border border-brand-gold/40 text-center space-y-6">
+            <div class="w-16 h-16 bg-brand-green/20 text-brand-green rounded-full flex items-center justify-center mx-auto text-3xl">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            
+            <h2 class="text-3xl font-extrabold text-white">استفسارات الرسوم والفيز الدراسية</h2>
+            <p class="text-slate-300 text-sm max-w-2xl mx-auto leading-relaxed">
+                لمعرفة تفاصيل الرسوم الدراسية، الخصومات المتاحة (خصم الأخوة)، ونظام السداد الميسر لفرعي مصر والسودان، يسعدنا تواصلكم المباشر عبر إدارة القبول والجيل على الواتساب.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="https://wa.me/249122359997?text=السلام%20عليكم%D8%8C%20أود%20الاستفسار%20عن%20تفاصيل%20الرسوم%20والقبول%20في%20مدرسة%20برادايس" target="_blank" class="bg-brand-green hover:bg-brand-greenHover text-white font-bold px-8 py-3.5 rounded-full shadow-lg transition flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>استفسر الآن عبر الواتساب</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Online Admission Form Section -->
+    <section id="admission" class="py-20 px-4 relative z-10 bg-brand-navyDark/60">
+        <div class="max-w-3xl mx-auto glass-card p-8 sm:p-12 rounded-3xl border border-brand-green/30">
+            <div class="text-center mb-8 space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">استمارة التسجيل المبدئي للطلاب</h2>
+                <p class="text-xs sm:text-sm text-slate-400">قم بتعبئة البيانات التالية وسيقوم فريق القبول والتسجيل بالتواصل معكم فوراً</p>
+            </div>
+
+            <form id="admissionForm" class="space-y-5 text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-slate-300 mb-2 font-semibold">اسم الطالب رباعي *</label>
+                        <input type="text" required placeholder="أدخل اسم الطالب" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold">
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-2 font-semibold">المرحلة الدراسية *</label>
+                        <select required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold">
+                            <option value="">اختر المرحلة الدراسية</option>
+                            <option value="kg">الروضة والتمهيدي (Kindergarten)</option>
+                            <option value="primary">المرحلة الابتدائية (Primary)</option>
+                            <option value="middle">المرحلة المتوسطة (Middle School)</option>
+                            <option value="high">المرحلة الثانوية (High School)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-slate-300 mb-2 font-semibold">الفرع المطلوب *</label>
+                        <select required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-green">
+                            <option value="egypt">فرع مصر (القاهرة - المهندسين)</option>
+                            <option value="sudan">فرع السودان (الخرطوم - الطائف)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-2 font-semibold">رقم الهاتف / الواتساب *</label>
+                        <input type="tel" required placeholder="أدخل رقم التواصل" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-green">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 mb-2 font-semibold">أي ملاحظات أو استفسارات إضافية</label>
+                    <textarea rows="3" placeholder="أدخل أي تفاصيل إضافية..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-gold hover:bg-brand-goldDark text-brand-navy font-bold py-4 rounded-xl shadow-lg transition text-base">
+                    إرسال طلب التسجيل المبدئي
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Branches & Detailed Contact Section -->
+    <section id="branches" class="py-20 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl font-extrabold text-white">فروعنا وبيانات الاتصال</h2>
+                <div class="w-20 h-1 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Egypt -->
+                <div class="glass-card p-8 rounded-2xl border border-brand-gold/30 space-y-6">
+                    <div class="flex items-center gap-4 border-b border-slate-700 pb-4">
+                        <div class="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center text-brand-gold text-xl">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">فرع جمهورية مصر العربية</h3>
+                            <span class="text-xs text-brand-gold">القاهرة - المهندسين</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-brand-gold mt-1"></i>
+                            <div>
+                                <span class="font-bold text-white block">العنوان والتفاصيل:</span>
+                                المهندسين - 6 شارع دمشق متفرع من شارع سوريا، القاهرة، مصر.
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-phone text-brand-green mt-1"></i>
+                            <div>
+                                <span class="font-bold text-white block">أرقام هواتف الفرع:</span>
+                                <a href="tel:01005873254" class="hover:text-brand-gold block font-mono">010 05873254</a>
+                                <a href="tel:+249965594449" class="hover:text-brand-gold block font-mono">+249 96 559 4449</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sudan -->
+                <div class="glass-card p-8 rounded-2xl border border-brand-green/30 space-y-6">
+                    <div class="flex items-center gap-4 border-b border-slate-700 pb-4">
+                        <div class="w-12 h-12 bg-brand-green/20 rounded-full flex items-center justify-center text-brand-green text-xl">
+                            <i class="fa-solid fa-school"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">فرع جمهورية السودان</h3>
+                            <span class="text-xs text-brand-green">الخرطوم - الطائف</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-brand-green mt-1"></i>
+                            <div>
+                                <span class="font-bold text-white block">العنوان والتفاصيل:</span>
+                                الخرطوم - الطائف - شارع الستين - أمام العمارات سنتر وكلية الرياض.
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-phone text-brand-gold mt-1"></i>
+                            <div>
+                                <span class="font-bold text-white block">أرقام هواتف للتسجيل والاستفسار:</span>
+                                <a href="tel:+249122359997" class="hover:text-brand-green block font-mono">+249 122 359 997</a>
+                                <a href="tel:+249965594449" class="hover:text-brand-green block font-mono">+249 96 559 4449</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-navyDark border-t border-slate-800 py-10 text-center text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 space-y-4">
+            <div class="flex justify-center items-center gap-3">
+                <img src="data:image/jpeg;base64,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" alt="Paradise School Logo" class="h-14 w-auto rounded-full border-2 border-brand-gold p-0.5 bg-white transition duration-300">
+                    <div>
+                        <span class="text-lg font-extrabold block text-white tracking-wide">Paradise School</span>
+                        <span class="text-xs text-brand-gold block font-semibold">School & Kindergarten</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden lg:flex items-center space-x-6 space-x-reverse font-medium text-slate-200 text-sm">
+                    <a href="#about" class="hover:text-brand-gold transition">عن المدرسة</a>
+                    <a href="#values" class="hover:text-brand-green transition">القيم والمناهج</a>
+                    <a href="#stages" class="hover:text-brand-gold transition">المراحل الدراسية</a>
+                    <a href="#calculator" class="hover:text-brand-green transition">الرسوم والفيز</a>
+                    <a href="#admission" class="hover:text-brand-gold transition">القبول الإلكتروني</a>
+                    <a href="#branches" class="hover:text-brand-green transition">الفروع والتواصل</a>
+                </div>
+
+                <!-- CTA -->
+                <div class="flex items-center gap-3">
+                    <a href="https://wa.me/249122359997" target="_blank" class="bg-brand-green hover:bg-brand-greenHover text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shadow-lg shadow-brand-green/20 transition flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>تواصل مباشر</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20 px-4">
+        <div class="absolute inset-0 bg-gradient-to-br from-brand-navyDark via-brand-navy to-slate-900 opacity-90"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-green/10 rounded-full blur-3xl"></div>
+
+        <div class="relative max-w-5xl mx-auto text-center z-10 space-y-8">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-brand-gold/30 text-brand-gold text-xs sm:text-sm font-semibold">
+                <i class="fa-solid fa-award"></i>
+                <span>تعليم عالمي بروح ومبادئ سودانية اصيلة</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+                مدرسة <span class="text-gradient-gold">برادايس العالمية</span><br>
+                <span class="text-gradient-green text-3xl sm:text-5xl mt-2 block">Paradise International School</span>
+            </h1>
+
+            <p class="text-slate-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+                نفتح آفاق المستقبل لأبنائنا بمزيج فريد بين الاعتماد الدولي المتميز والتربية الأخلاقية القائمة على الأصالة والقيم السودانية السامية.
+            </p>
+
+            <!-- Quick Location Cards -->
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <div class="glass-card px-5 py-3 rounded-xl border border-slate-700 flex items-center gap-3 text-right">
+                    <i class="fa-solid fa-building-columns text-brand-gold text-2xl"></i>
+                    <div>
+                        <div class="text-xs text-slate-400">فرع مصر (القاهرة)</div>
+                        <div class="text-sm font-bold text-white">المهندسين - 6 شارع دمشق</div>
+                    </div>
+                </div>
+                <div class="glass-card px-5 py-3 rounded-xl border border-slate-700 flex items-center gap-3 text-right">
+                    <i class="fa-solid fa-school text-brand-green text-2xl"></i>
+                    <div>
+                        <div class="text-xs text-slate-400">فرع السودان (الخرطوم)</div>
+                        <div class="text-sm font-bold text-white">الطائف - شارع الستين</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="#admission" class="bg-brand-gold hover:bg-brand-goldDark text-brand-navy font-bold px-8 py-3.5 rounded-full shadow-lg transition">
+                    سجل لابنك الآن
+                </a>
+                <a href="#calculator" class="glass-card border border-brand-green text-white hover:bg-brand-green/20 font-bold px-8 py-3.5 rounded-full transition flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-brand-green"></i>
+                    <span>حاسبة الرسوم والاستفسارات</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section id="about" class="py-20 px-4 relative z-10 bg-brand-navyDark/60">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl font-extrabold text-white">عن برادايس العالمية</h2>
+                <div class="w-20 h-1 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-brand-gold glass-card-hover transition duration-300">
+                    <div class="w-14 h-14 bg-brand-gold/10 rounded-xl flex items-center justify-center text-brand-gold text-2xl mb-6">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">رؤيتنا (Vision)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        الريادة في إعداد جيل يتسم بالتفوق العلمي والأكاديمي العالمي، ويمتلك أدوات العصر الحديث بثقة واقتدار ومسؤولية.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-brand-green glass-card-hover transition duration-300">
+                    <div class="w-14 h-14 bg-brand-green/10 rounded-xl flex items-center justify-center text-brand-green text-2xl mb-6">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">رسالتنا (Mission)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        تقديم بيئة تعليمية تفاعلية تعتمد على أحدث وسائل التكنولوجيا، وتنمية القدرات الإبداعية مع غرس القيم الإيجابية والسلوك الرفيع.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-t-brand-gold glass-card-hover transition duration-300">
+                    <div class="w-14 h-14 bg-brand-gold/10 rounded-xl flex items-center justify-center text-brand-gold text-2xl mb-6">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">أهدافنا (Goals)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        تطوير مهارات التفكير النقدي والتحليلي، إتقان اللغات، وبناء شخصيات قيادية متوازنة تحافظ على الإرث الثقافي الأصيل.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values & Sudanese Cultural Heritage -->
+    <section id="values" class="py-20 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl font-extrabold text-white">قيمنا السودانية والمنهج العالمي</h2>
+                <p class="text-slate-400 text-sm">نصنع التوازن المثالي بين المعايير الدولية والتربية الأخلاقية الأصيلة</p>
+                <div class="w-20 h-1 bg-brand-green mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-xl text-center space-y-4 border border-brand-gold/20">
+                    <div class="w-12 h-12 bg-brand-gold/20 text-brand-gold rounded-full flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h4 class="font-bold text-white">الأصالة والشهامة</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">تعزيز قيم التعاون، احترام الكبير، والترابط الاجتماعي الذي يميز مجتمعنا الأصيل.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl text-center space-y-4 border border-brand-green/20">
+                    <div class="w-12 h-12 bg-brand-green/20 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-book-quran"></i>
+                    </div>
+                    <h4 class="font-bold text-white">الهوية والأخلاق</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">الاهتمام البالغ باللغة العربية والتربية الإسلامية والثقافة السودانية الغنية.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl text-center space-y-4 border border-brand-gold/20">
+                    <div class="w-12 h-12 bg-brand-gold/20 text-brand-gold rounded-full flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h4 class="font-bold text-white">التفوق العلمي الحديث</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">اعتماد أرقى المناهج الدولية في العلوم، الرياضيات، واللغات مع تطبيقات الذكاء الاصطناعي.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl text-center space-y-4 border border-brand-green/20">
+                    <div class="w-12 h-12 bg-brand-green/20 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-users font-bold"></i>
+                    </div>
+                    <h4 class="font-bold text-white">البيئة الأسرية الداعمة</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">شراكة حقيقية مع أولياء الأمور لتوفير الرعاية النفسية والتربوية الشاملة للطلاب.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educational Stages -->
+    <section id="stages" class="py-20 px-4 relative z-10 bg-brand-navyDark/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl font-extrabold text-white">المراحل الدراسية (Educational Stages)</h2>
+                <div class="w-20 h-1 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Kindergarten -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-slate-700">
+                    <div class="text-brand-gold font-bold text-xs uppercase tracking-wider">Kindergarten</div>
+                    <h3 class="text-xl font-bold text-white">الروضة والتمهيدي</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">تعلم باللعب والمرح، تنمية مهارات التفكير المبكر، استكشاف اللغات والانضباط الحركي في بيئة آمنة جداً.</p>
+                </div>
+
+                <!-- Primary -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-slate-700">
+                    <div class="text-brand-green font-bold text-xs uppercase tracking-wider">Primary School</div>
+                    <h3 class="text-xl font-bold text-white">المرحلة الابتدائية</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">بناء الأساس العلمي واللغوي، تطوير مهارات القراءة والحساب، وغرس المبادئ التربوية القويمة.</p>
+                </div>
+
+                <!-- Middle -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-slate-700">
+                    <div class="text-brand-gold font-bold text-xs uppercase tracking-wider">Middle School</div>
+                    <h3 class="text-xl font-bold text-white">المرحلة المتوسطة</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">تعزيز التفكير النقدي والعلوم المتقدمة، مع الاهتمام بالأنشطة الرياضية والثقافية والمهارات الاجتماعية.</p>
+                </div>
+
+                <!-- High School -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-slate-700">
+                    <div class="text-brand-green font-bold text-xs uppercase tracking-wider">High School</div>
+                    <h3 class="text-xl font-bold text-white">المرحلة الثانوية</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">إعداد الطلاب للتفوق في الامتحانات وتأهيلهم الأكاديمي الشامل للالتحاق بأفضل الجامعات العالمية والوطنية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fees & WhatsApp Connection -->
+    <section id="calculator" class="py-20 px-4 relative z-10">
+        <div class="max-w-4xl mx-auto glass-card p-8 sm:p-12 rounded-3xl border border-brand-gold/40 text-center space-y-6">
+            <div class="w-16 h-16 bg-brand-green/20 text-brand-green rounded-full flex items-center justify-center mx-auto text-3xl">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            
+            <h2 class="text-3xl font-extrabold text-white">استفسارات الرسوم والفيز الدراسية</h2>
+            <p class="text-slate-300 text-sm max-w-2xl mx-auto leading-relaxed">
+                لمعرفة تفاصيل الرسوم الدراسية، الخصومات المتاحة (خصم الأخوة)، ونظام السداد الميسر لفرعي مصر والسودان، يسعدنا تواصلكم المباشر عبر إدارة القبول والجيل على الواتساب.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="https://wa.me/249122359997?text=السلام%20عليكم%D8%8C%20أود%20الاستفسار%20عن%20تفاصيل%20الرسوم%20والقبول%20في%20مدرسة%20برادايس" target="_blank" class="bg-brand-green hover:bg-brand-greenHover text-white font-bold px-8 py-3.5 rounded-full shadow-lg transition flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>استفسر الآن عبر الواتساب</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Online Admission Form Section -->
+    <section id="admission" class="py-20 px-4 relative z-10 bg-brand-navyDark/60">
+        <div class="max-w-3xl mx-auto glass-card p-8 sm:p-12 rounded-3xl border border-brand-green/30">
+            <div class="text-center mb-8 space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">استمارة التسجيل المبدئي للطلاب</h2>
+                <p class="text-xs sm:text-sm text-slate-400">قم بتعبئة البيانات التالية وسيقوم فريق القبول والتسجيل بالتواصل معكم فوراً</p>
+            </div>
+
+            <form id="admissionForm" class="space-y-5 text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-slate-300 mb-2 font-semibold">اسم الطالب رباعي *</label>
+                        <input type="text" required placeholder="أدخل اسم الطالب" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold">
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-2 font-semibold">المرحلة الدراسية *</label>
+                        <select required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold">
+                            <option value="">اختر المرحلة الدراسية</option>
+                            <option value="kg">الروضة والتمهيدي (Kindergarten)</option>
+                            <option value="primary">المرحلة الابتدائية (Primary)</option>
+                            <option value="middle">المرحلة المتوسطة (Middle School)</option>
+                            <option value="high">المرحلة الثانوية (High School)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-slate-300 mb-2 font-semibold">الفرع المطلوب *</label>
+                        <select required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-green">
+                            <option value="egypt">فرع مصر (القاهرة - المهندسين)</option>
+                            <option value="sudan">فرع السودان (الخرطوم - الطائف)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-2 font-semibold">رقم الهاتف / الواتساب *</label>
+                        <input type="tel" required placeholder="أدخل رقم التواصل" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-green">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 mb-2 font-semibold">أي ملاحظات أو استفسارات إضافية</label>
+                    <textarea rows="3" placeholder="أدخل أي تفاصيل إضافية..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-gold"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-gold hover:bg-brand-goldDark text-brand-navy font-bold py-4 rounded-xl shadow-lg transition text-base">
+                    إرسال طلب التسجيل المبدئي
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Branches & Detailed Contact Section -->
+    <section id="branches" class="py-20 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl font-extrabold text-white">فروعنا وبيانات الاتصال</h2>
+                <div class="w-20 h-1 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Egypt -->
+                <div class="glass-card p-8 rounded-2xl border border-brand-gold/30 space-y-6">
+                    <div class="flex items-center gap-4 border-b border-slate-700 pb-4">
+                        <div class="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center text-brand-gold text-xl">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">فرع جمهورية مصر العربية</h3>
+                            <span class="text-xs text-brand-gold">القاهرة - المهندسين</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-brand-gold mt-1"></i>
+                            <div>
+                                <span class="font-bold text-white block">العنوان والتفاصيل:</span>
+                                المهندسين - 6 شارع دمشق متفرع من شارع سوريا، القاهرة، مصر.
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-phone text-brand-green mt-1"></i>
+                            <div>
+                                <span class="font-bold text-white block">أرقام هواتف الفرع:</span>
+                                <a href="tel:01005873254" class="hover:text-brand-gold block font-mono">010 05873254</a>
+                                <a href="tel:+249965594449" class="hover:text-brand-gold block font-mono">+249 96 559 4449</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sudan -->
+                <div class="glass-card p-8 rounded-2xl border border-brand-green/30 space-y-6">
+                    <div class="flex items-center gap-4 border-b border-slate-700 pb-4">
+                        <div class="w-12 h-12 bg-brand-green/20 rounded-full flex items-center justify-center text-brand-green text-xl">
+                            <i class="fa-solid fa-school"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">فرع جمهورية السودان</h3>
+                            <span class="text-xs text-brand-green">الخرطوم - الطائف</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-brand-green mt-1"></i>
+                            <div>
+                                <span class="font-bold text-white block">العنوان والتفاصيل:</span>
+                                الخرطوم - الطائف - شارع الستين - أمام العمارات سنتر وكلية الرياض.
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-phone text-brand-gold mt-1"></i>
+                            <div>
+                                <span class="font-bold text-white block">أرقام هواتف للتسجيل والاستفسار:</span>
+                                <a href="tel:+249122359997" class="hover:text-brand-green block font-mono">+249 122 359 997</a>
+                                <a href="tel:+249965594449" class="hover:text-brand-green block font-mono">+249 96 559 4449</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-navyDark border-t border-slate-800 py-10 text-center text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 space-y-4">
+            <div class="flex justify-center items-center gap-3">
+                <img src="data:image/jpeg;base64,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" alt="Paradise School Logo" class="h-10 w-auto rounded-full bg-white p-0.5 border border-brand-gold">
+                <span class="text-sm font-bold text-white">Paradise International School</span>
+            </div>
+            <p>© 2026 جميع الحقوق محفوظة لمدرسة برادايس العالمية | Paradise School & Kindergarten</p>
+        </div>
+    </footer>
+
+    <!-- GSAP & JS Logic -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from(".glass-card", {
+            duration: 1,
+            y: 30,
+            opacity: 0,
+            stagger: 0.15,
+            ease: "power2.out"
+        });
+
+        document.getElementById('admissionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('تم استلام طلب التسجيل المبدئي بنجاح! سيقوم فريق إدارة القبول بالتواصل معكم في أقرب وقت.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
